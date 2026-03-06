@@ -620,6 +620,10 @@ class SeaDexSonarr(SeaDexArr):
             )
 
         for s in self.sonarr.all_series():
+            # Skip series if "seadexarr_ignore" tag is applied in Sonarr
+            ignore_series = any(t.label == 'seadexarr-ignore' for t in s.tags)
+            if ignore_series:
+                continue
 
             # Check by TVDB IDs
             tvdb_id = s.tvdbId
