@@ -328,7 +328,12 @@ class SeaDexRadarr(SeaDexArr):
             )
 
         for m in self.radarr.all_movies():
-
+            # Skip series if "seadexarr_ignore" tag is applied in Sonarr
+            ignore_series = any(t.label == 'seadexarr-ignore' for t in m.tags)
+            if ignore_series:
+                self.logger.debug(f"Ignoring movie: {m.title}")
+                continue
+            
             # Check by TMDB IDs
             tmdb_id = m.tmdbId
             if tmdb_id in all_tmdb_ids and m not in radarr_movies:
