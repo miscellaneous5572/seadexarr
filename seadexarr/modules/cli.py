@@ -66,25 +66,25 @@ def run_scheduled():
             sdr = SeaDexRadarr(
                 config=config,
                 cache=cache,
-                logger=logger,
+                logger=None,
             )
             sdr.run()
         except Exception:
             tb = traceback.format_exc()
             for line in tb.splitlines():
-                logger.warning(line)
+                sdr.logger.warning(line)
 
         try:
             sds = SeaDexSonarr(
                 config=config,
                 cache=cache,
-                logger=logger,
+                logger=None,
             )
             sds.run()
         except Exception:
             tb = traceback.format_exc()
             for line in tb.splitlines():
-                logger.warning(line)
+                sds.logger.warning(line)
 
         next_run_time = datetime.now() + timedelta(hours=schedule_time)
         next_run_time = next_run_time.strftime("%H:%M")
