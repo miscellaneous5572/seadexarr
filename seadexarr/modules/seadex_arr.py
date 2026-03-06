@@ -280,7 +280,10 @@ class SeaDexArr:
 
         if logger is None:
             log_level = self.config.get("log_level", "INFO")
-            self.logger = setup_logger(log_level=log_level)
+            if log_level is None:
+                self.logger = setup_logger(log_level="INFO")
+            else:
+                self.logger = setup_logger(log_level=log_level)
         else:
             self.logger = logger
 
